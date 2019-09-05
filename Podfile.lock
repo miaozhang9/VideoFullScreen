@@ -1,0 +1,29 @@
+PODS:
+  - MovieousPlayer (1.0.7)
+  - Reachability (3.2)
+
+DEPENDENCIES:
+  - MovieousPlayer (from `https://e.coding.net/movieous-team/MovieousPlayer-Cocoa-Release.git`, branch `master`)
+  - Reachability
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Reachability
+
+EXTERNAL SOURCES:
+  MovieousPlayer:
+    :branch: master
+    :git: https://e.coding.net/movieous-team/MovieousPlayer-Cocoa-Release.git
+
+CHECKOUT OPTIONS:
+  MovieousPlayer:
+    :commit: 8ca34dbf8568a18d0fbf65de87fdbae64ee91a30
+    :git: https://e.coding.net/movieous-team/MovieousPlayer-Cocoa-Release.git
+
+SPEC CHECKSUMS:
+  MovieousPlayer: f1ef4cf34ace3bb2520a4cad73dde321aeb8ccef
+  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
+
+PODFILE CHECKSUM: 81fce9f9aae6ff3f3afa77cbcb37f62a33eb6063
+
+COCOAPODS: 1.7.5
