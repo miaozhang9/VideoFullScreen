@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2204226B54376D27E30C024D /* Pods_VideoFullScreen.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C47B84E240438E36ED4BC459 /* Pods_VideoFullScreen.framework */; };
+		9B2CD8952322378E00C051C7 /* UITabBarController+Rotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2CD8942322378E00C051C7 /* UITabBarController+Rotation.m */; };
+		9B2CD898232237B600C051C7 /* UINavigationController+Rotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2CD897232237B600C051C7 /* UINavigationController+Rotation.m */; };
 		9B305C572321069000F4EA37 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B305C562321069000F4EA37 /* AppDelegate.m */; };
 		9B305C5A2321069000F4EA37 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B305C592321069000F4EA37 /* ViewController.m */; };
 		9B305C5D2321069000F4EA37 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B305C5B2321069000F4EA37 /* Main.storyboard */; };
@@ -20,6 +22,10 @@
 /* Begin PBXFileReference section */
 		4C2139A2C7231F75E3C0EB96 /* Pods-VideoFullScreen.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VideoFullScreen.release.xcconfig"; path = "Target Support Files/Pods-VideoFullScreen/Pods-VideoFullScreen.release.xcconfig"; sourceTree = "<group>"; };
 		5032309555738DB5E029B948 /* Pods-VideoFullScreen.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VideoFullScreen.debug.xcconfig"; path = "Target Support Files/Pods-VideoFullScreen/Pods-VideoFullScreen.debug.xcconfig"; sourceTree = "<group>"; };
+		9B2CD8932322378E00C051C7 /* UITabBarController+Rotation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITabBarController+Rotation.h"; sourceTree = "<group>"; };
+		9B2CD8942322378E00C051C7 /* UITabBarController+Rotation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITabBarController+Rotation.m"; sourceTree = "<group>"; };
+		9B2CD896232237B600C051C7 /* UINavigationController+Rotation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+Rotation.h"; sourceTree = "<group>"; };
+		9B2CD897232237B600C051C7 /* UINavigationController+Rotation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+Rotation.m"; sourceTree = "<group>"; };
 		9B305C522321069000F4EA37 /* VideoFullScreen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VideoFullScreen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B305C552321069000F4EA37 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9B305C562321069000F4EA37 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -80,7 +86,11 @@
 				9B305C562321069000F4EA37 /* AppDelegate.m */,
 				9B305C582321069000F4EA37 /* ViewController.h */,
 				9B305C592321069000F4EA37 /* ViewController.m */,
+				9B2CD8932322378E00C051C7 /* UITabBarController+Rotation.h */,
+				9B2CD8942322378E00C051C7 /* UITabBarController+Rotation.m */,
 				9B305C5B2321069000F4EA37 /* Main.storyboard */,
+				9B2CD896232237B600C051C7 /* UINavigationController+Rotation.h */,
+				9B2CD897232237B600C051C7 /* UINavigationController+Rotation.m */,
 				9B305C5E2321069200F4EA37 /* Assets.xcassets */,
 				9B305C602321069200F4EA37 /* LaunchScreen.storyboard */,
 				9B305C632321069200F4EA37 /* Info.plist */,
@@ -214,8 +224,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				9B305C5A2321069000F4EA37 /* ViewController.m in Sources */,
+				9B2CD8952322378E00C051C7 /* UITabBarController+Rotation.m in Sources */,
 				9B305C652321069200F4EA37 /* main.m in Sources */,
 				9B305C572321069000F4EA37 /* AppDelegate.m in Sources */,
+				9B2CD898232237B600C051C7 /* UINavigationController+Rotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

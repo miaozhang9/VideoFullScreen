@@ -16,14 +16,15 @@ static CGFloat AnimationDuration = 0.3;//旋转动画执行时间
 MovieousPlayerControllerDelegate
 >
 
-@property (nonatomic, nullable, strong) UIView *playerView;//播放器视图
+@property (nonatomic, nullable, strong) UIView *playerView;//播放器承载视图
 @property (nonatomic, nullable, strong) UIButton *btnFullScreen;
+@property (nonatomic, nullable, strong) UIButton *btnClose;
 @property (nonatomic, nullable, strong) UIView *playerSuperView;//记录播放器父视图
 @property (nonatomic, assign) CGRect playerFrame;//记录播放器原始frame
 @property (nonatomic, assign) BOOL isFullScreen;//记录是否全屏
+@property (strong, nonatomic) MovieousPlayerController *player;//播放容器
+@property (nonatomic) UIInterfaceOrientation currentInterfaceOrientation;
 
-
-@property (strong, nonatomic) MovieousPlayerController *player;
 @end
 
 @implementation ViewController
@@ -38,9 +39,14 @@ MovieousPlayerControllerDelegate
     MovieousPlayerController.logLevel = MPLogLevelError;
 #endif
     
+   
     [self.playerView addSubview:self.btnFullScreen];
+    [self.playerView addSubview:self.btnClose];
     [self.view addSubview:self.playerView];
-    [self reloadPlayer:[[NSBundle mainBundle] URLForResource:@"VRDemo" withExtension:@"m4v"]];
+//    [self reloadPlayer:[[NSBundle mainBundle] URLForResource:@"VRDemo" withExtension:@"m4v"]];
+     [self reloadPlayer: [NSURL URLWithString:@"rtmp://58.200.131.2:1935/livetv/hunantv"]];
+//    [self reloadPlayer: [NSURL URLWithString:@"rtmp://p.autostreets.com/live/shanghai-indoor"]];
+  
     
     //开启和监听 设备旋转的通知
     if (![UIDevice currentDevice].generatesDeviceOrientationNotifications) {
@@ -79,6 +85,7 @@ MovieousPlayerControllerDelegate
         case MPPlayerStateIdle:
         case MPPlayerStatePaused:
         case MPPlayerStateCompleted:
+            NSLog(@"MPPlayerStateCompleted");
         case MPPlayerStateStopped:
         case MPPlayerStateError:
 //            _playButton.selected = NO;
@@ -172,9 +179,18 @@ MovieousPlayerControllerDelegate
     
     if (self.isFullScreen) {//如果是全屏，点击按钮进入小屏状态
         [self changeToOriginalFrame];
+       
     } else {//不是全屏，点击按钮进入全屏状态
         [self changeToFullScreen];
     }
+    
+//    [[UIApplication sharedApplication] setStatusBarHidden:YES animated:YES];
+    
+}
+
+- (void)closeAction:(UIButton *)sender {
+    
+ 
     
 }
 
@@ -189,14 +205,15 @@ MovieousPlayerControllerDelegate
         
         [self interfaceOrientation:UIInterfaceOrientationPortrait];
         self.playerView.frame = self.playerFrame;
-        self.player.playerView.frame = CGRectMake(0, 0, self.playerView.frame.size.width, self.playerView.frame.size.height);
-        
+        self.player.playerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.playerView.frame), CGRectGetHeight(self.playerView.frame));
+        self.btnFullScreen.frame = CGRectMake(CGRectGetWidth(self.playerView.frame)-50, CGRectGetHeight(self.playerView.frame)-50, 40, 30);
     } completion:^(BOOL finished) {
         
         [self.playerView removeFromSuperview];
         
         [self.playerSuperView addSubview:self.playerView];
         self.isFullScreen = NO;
+   
     }];
     
 }
@@ -213,10 +230,11 @@ MovieousPlayerControllerDelegate
     
     CGRect rectInWindow = [self.playerView convertRect:self.playerView.bounds toView:[UIApplication sharedApplication].keyWindow];
     [self.playerView removeFromSuperview];
+    NSLog(@"rectInWindow%@",NSStringFromCGRect(rectInWindow));
     
     self.playerView.frame = rectInWindow;
     [[UIApplication sharedApplication].keyWindow addSubview:self.playerView];
-    
+       NSLog(@" self.playerView.frame%@",NSStringFromCGRect( self.playerView.frame));
     //执行旋转动画
     [UIView animateWithDuration:AnimationDuration animations:^{
         
@@ -231,12 +249,14 @@ MovieousPlayerControllerDelegate
         self.playerView.bounds = CGRectMake(0, 0, CGRectGetHeight([UIApplication sharedApplication].keyWindow.bounds), CGRectGetWidth([UIApplication sharedApplication].keyWindow.bounds));
         self.playerView.center = CGPointMake(CGRectGetMidX([UIApplication sharedApplication].keyWindow.bounds), CGRectGetMidY([UIApplication sharedApplication].keyWindow.bounds));
         
-        self.player.playerView.frame =  CGRectMake(0, 0, self.playerView.frame.size.height, self.playerView.frame.size.width);
+        self.player.playerView.frame =  CGRectMake(0, 0, CGRectGetHeight(self.playerView.frame), CGRectGetWidth(self.playerView.frame));
+        self.btnFullScreen.frame = CGRectMake(CGRectGetHeight(self.playerView.frame)-50, CGRectGetWidth(self.playerView.frame)-50, 40, 30);
 //        self.player.playerView.center =  CGPointMake(CGRectGetMidX([UIApplication sharedApplication].keyWindow.bounds), CGRectGetMidY([UIApplication sharedApplication].keyWindow.bounds));
         
     } completion:^(BOOL finished) {
         
         self.isFullScreen = YES;
+         
     }];
 }
 
@@ -261,12 +281,19 @@ MovieousPlayerControllerDelegate
 }
 
 - (void)toOrientation:(UIInterfaceOrientation)orientation {
-    // 获取到当前状态条的方向
-    UIInterfaceOrientation currentOrientation = [UIApplication sharedApplication].statusBarOrientation;
-    // 判断如果当前方向和要旋转的方向一致,那么不做任何操作
-    if (currentOrientation == orientation) { return; }
     
+    // 获取到当前状态条的方向,在iOS13之后无法使用此方法改变状态栏方向和使用
+//    UIInterfaceOrientation currentOrientation = [UIApplication sharedApplication].statusBarOrientation;
+//    // 判断如果当前方向和要旋转的方向一致,那么不做任何操作
+//    if (currentOrientation == orientation) { return; }
+//    [UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationPortrait;
+//    [[UIApplication sharedApplication] setStatusBarOrientation:orientation animated:NO];
+//
+    UIInterfaceOrientation currentOrientation = _currentInterfaceOrientation;
+     if (currentOrientation == orientation) { return; }
+    [UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationPortrait;
     [[UIApplication sharedApplication] setStatusBarOrientation:orientation animated:NO];
+    _currentInterfaceOrientation = orientation;
     
     // 获取旋转状态条需要的时间:
     [UIView beginAnimations:nil context:nil];
@@ -281,7 +308,9 @@ MovieousPlayerControllerDelegate
 
 - (CGAffineTransform)getTransformRotationAngle {
     // 状态条的方向已经设置过,所以这个就是你想要旋转的方向
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+//    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    UIInterfaceOrientation orientation = _currentInterfaceOrientation;
+//    orientation = UIInterfaceOrientationLandscapeRight;
     // 根据要进行旋转的方向来计算旋转的角度
     if (orientation == UIInterfaceOrientationPortrait) {
         return CGAffineTransformIdentity;
@@ -293,12 +322,16 @@ MovieousPlayerControllerDelegate
     return CGAffineTransformIdentity;
 }
 
+
 #pragma mark - setter
 
 - (void)setIsFullScreen:(BOOL)isFullScreen {
     _isFullScreen = isFullScreen;
-    [self.btnFullScreen setTitle:isFullScreen?@"退出全屏":@"全屏" forState:UIControlStateNormal];
+    [self.btnFullScreen setTitle:isFullScreen?@"半屏":@"全屏" forState:UIControlStateNormal];
+    [UIApplication sharedApplication].statusBarHidden = _isFullScreen;
 }
+
+
 
 #pragma mark - getter
 
@@ -323,9 +356,20 @@ MovieousPlayerControllerDelegate
         [_btnFullScreen setTitle:@"全屏" forState:UIControlStateNormal];
         _btnFullScreen.backgroundColor = [UIColor orangeColor];
         [_btnFullScreen addTarget:self action:@selector(fullScreenAction:) forControlEvents:UIControlEventTouchUpInside];
-        _btnFullScreen.frame = CGRectMake(50, 80, 150, 50);
+        _btnFullScreen.frame = CGRectMake(CGRectGetWidth(self.playerView.frame)-50, CGRectGetHeight(self.playerView.frame)-50, 40, 30);
     }
     return _btnFullScreen;
+}
+
+- (UIButton *)btnClose {
+    if (!_btnClose) {
+        _btnClose = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_btnClose setTitle:@"关闭" forState:UIControlStateNormal];
+        _btnClose.backgroundColor = [UIColor orangeColor];
+        [_btnClose addTarget:self action:@selector(closeAction:) forControlEvents:UIControlEventTouchUpInside];
+        _btnClose.frame = CGRectMake(20, 20, 40, 30);
+    }
+    return _btnClose;
 }
 
 
